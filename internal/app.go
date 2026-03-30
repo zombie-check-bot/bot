@@ -3,14 +3,14 @@ package internal
 import (
 	"context"
 
-	"github.com/capcom6/go-project-template/internal/bot"
-	"github.com/capcom6/go-project-template/internal/config"
-	"github.com/capcom6/go-project-template/internal/example"
-	"github.com/capcom6/go-project-template/internal/server"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/healthfx"
 	"github.com/go-core-fx/logger"
 	"github.com/go-core-fx/telegofx"
+	"github.com/zombie-check-bot/bot/internal/bot"
+	"github.com/zombie-check-bot/bot/internal/config"
+	"github.com/zombie-check-bot/bot/internal/example"
+	"github.com/zombie-check-bot/bot/internal/server"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )

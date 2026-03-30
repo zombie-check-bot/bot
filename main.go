@@ -19,9 +19,9 @@ import (
 	"runtime"
 	"strconv"
 
-	"github.com/capcom6/go-project-template/internal"
 	"github.com/go-core-fx/healthfx"
 	"github.com/samber/lo"
+	"github.com/zombie-check-bot/bot/internal"
 )
 
 //go:generate swag init --parseDependency --outputTypes go -g ./main.go -o ./internal/server/docs

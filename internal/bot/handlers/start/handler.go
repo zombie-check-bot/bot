@@ -3,10 +3,10 @@ package start
 import (
 	"fmt"
 
-	"github.com/capcom6/go-project-template/internal/bot/handler"
 	"github.com/go-core-fx/telegofx"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
+	"github.com/zombie-check-bot/bot/internal/bot/handler"
 	"go.uber.org/zap"
 )
 

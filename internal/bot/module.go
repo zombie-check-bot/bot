@@ -1,13 +1,13 @@
 package bot
 
 import (
-	"github.com/capcom6/go-project-template/internal/bot/handler"
-	"github.com/capcom6/go-project-template/internal/bot/handlers/start"
 	"github.com/go-core-fx/logger"
 	"github.com/go-core-fx/telegofx"
 	"github.com/mymmrac/telego"
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
+	"github.com/zombie-check-bot/bot/internal/bot/handler"
+	"github.com/zombie-check-bot/bot/internal/bot/handlers/start"
 	"go.uber.org/fx"
 )
 

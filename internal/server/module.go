@@ -1,7 +1,6 @@
 package server
 
 import (
-	"github.com/capcom6/go-project-template/internal/server/docs"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/handler"
 	"github.com/go-core-fx/fiberfx/health"
@@ -9,6 +8,7 @@ import (
 	"github.com/go-core-fx/fiberfx/validation"
 	"github.com/go-core-fx/logger"
 	"github.com/gofiber/fiber/v2"
+	"github.com/zombie-check-bot/bot/internal/server/docs"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )

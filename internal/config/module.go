@@ -1,10 +1,10 @@
 package config
 
 import (
-	"github.com/capcom6/go-project-template/internal/example"
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/openapi"
 	"github.com/go-core-fx/telegofx"
+	"github.com/zombie-check-bot/bot/internal/example"
 	"go.uber.org/fx"
 )
 

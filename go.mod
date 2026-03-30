@@ -1,4 +1,4 @@
-module github.com/capcom6/go-project-template
+module github.com/zombie-check-bot/bot
 
 go 1.25.7
 
