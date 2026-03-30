@@ -3,9 +3,19 @@ package config
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/go-core-fx/config"
 )
+
+type database struct {
+	URL string `koanf:"url"`
+
+	ConnMaxIdleTime time.Duration `koanf:"conn_max_idle_time"`
+	ConnMaxLifetime time.Duration `koanf:"conn_max_lifetime"`
+	MaxOpenConns    int           `koanf:"max_open_conns"`
+	MaxIdleConns    int           `koanf:"max_idle_conns"`
+}
 
 type http struct {
 	Address     string   `koanf:"address"`
@@ -30,6 +40,7 @@ type exampleConfig struct {
 }
 
 type Config struct {
+	Database database `koanf:"database"`
 	HTTP     http     `koanf:"http"`
 	Telegram telegram `koanf:"telegram"`
 
@@ -37,7 +48,16 @@ type Config struct {
 }
 
 func Default() Config {
+	//nolint:mnd,gosec // default values
 	return Config{
+		Database: database{
+			URL: "mariadb://bot:bot@127.0.0.1:3306/bot?charset=utf8mb4&parseTime=True&loc=UTC",
+
+			ConnMaxIdleTime: 10 * time.Minute,
+			ConnMaxLifetime: 1 * time.Hour,
+			MaxOpenConns:    25,
+			MaxIdleConns:    5,
+		},
 		HTTP: http{
 			Address:     "127.0.0.1:3000",
 			ProxyHeader: "X-Forwarded-For",

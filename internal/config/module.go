@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/go-core-fx/fiberfx"
 	"github.com/go-core-fx/fiberfx/openapi"
+	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
 	"github.com/zombie-check-bot/bot/internal/example"
 	"go.uber.org/fx"
@@ -30,6 +31,15 @@ func Module() fx.Option {
 			func(cfg Config) telegofx.Config {
 				return telegofx.Config{
 					Token: cfg.Telegram.Token,
+				}
+			},
+			func(cfg Config) sqlfx.Config {
+				return sqlfx.Config{
+					URL:             cfg.Database.URL,
+					ConnMaxIdleTime: cfg.Database.ConnMaxIdleTime,
+					ConnMaxLifetime: cfg.Database.ConnMaxLifetime,
+					MaxOpenConns:    cfg.Database.MaxOpenConns,
+					MaxIdleConns:    cfg.Database.MaxIdleConns,
 				}
 			},
 		),

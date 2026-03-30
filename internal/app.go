@@ -3,12 +3,16 @@ package internal
 import (
 	"context"
 
+	"github.com/go-core-fx/bunfx"
 	"github.com/go-core-fx/fiberfx"
+	"github.com/go-core-fx/goosefx"
 	"github.com/go-core-fx/healthfx"
 	"github.com/go-core-fx/logger"
+	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
 	"github.com/zombie-check-bot/bot/internal/bot"
 	"github.com/zombie-check-bot/bot/internal/config"
+	"github.com/zombie-check-bot/bot/internal/db"
 	"github.com/zombie-check-bot/bot/internal/example"
 	"github.com/zombie-check-bot/bot/internal/server"
 	"go.uber.org/fx"
@@ -21,13 +25,13 @@ func Run(version healthfx.Version) {
 		logger.Module(),
 		logger.WithFxDefaultLogger(),
 		// badgerfx.Module(),
-		// bunfx.Module(),
+		bunfx.Module(),
 		// cachefx.Module(),
 		fiberfx.Module(),
 		// gocqlfx.Module(),
 		// gocqlxfx.Module(),
-		// sqlfx.Module(),
-		// goosefx.Module(),
+		sqlfx.Module(),
+		goosefx.Module(),
 		// gormfx.Module(),
 		healthfx.Module(),
 		// openrouterfx.Module(),
@@ -39,7 +43,7 @@ func Run(version healthfx.Version) {
 		//
 		// APP MODULES
 		config.Module(),
-		// db.Module(),
+		db.Module(),
 		server.Module(),
 		bot.Module(),
 		//
