@@ -4,10 +4,15 @@ import (
 	"github.com/go-core-fx/logger"
 	"github.com/go-core-fx/telegofx"
 	"github.com/mymmrac/telego"
+	th "github.com/mymmrac/telego/telegohandler"
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
 	"github.com/zombie-check-bot/bot/internal/bot/handler"
+	"github.com/zombie-check-bot/bot/internal/bot/handlers/contacts"
+	"github.com/zombie-check-bot/bot/internal/bot/handlers/help"
+	"github.com/zombie-check-bot/bot/internal/bot/handlers/profile"
 	"github.com/zombie-check-bot/bot/internal/bot/handlers/start"
+	"github.com/zombie-check-bot/bot/internal/bot/middlewares/userauth"
 	"go.uber.org/fx"
 )
 
@@ -21,16 +26,25 @@ func Module() fx.Option {
 			}
 		}),
 		fx.Provide(
+			fx.Annotate(userauth.New, fx.ResultTags(`group:"middlewares"`)),
+
 			fx.Annotate(start.New, fx.ResultTags(`group:"handlers"`)),
+			fx.Annotate(profile.New, fx.ResultTags(`group:"handlers"`)),
+			fx.Annotate(contacts.New, fx.ResultTags(`group:"handlers"`)),
+			fx.Annotate(help.New, fx.ResultTags(`group:"handlers"`)),
 		),
 		fx.Invoke(
 			fx.Annotate(
-				func(handlers []handler.Handler, r *telegofx.Router) {
+				func(handlers []handler.Handler, middlewares []th.Handler, r *telegofx.Router) {
+					for _, m := range middlewares {
+						r.Use(m)
+					}
+
 					for _, h := range handlers {
 						h.Register(r)
 					}
 				},
-				fx.ParamTags(`group:"handlers"`),
+				fx.ParamTags(`group:"handlers"`, `group:"middlewares"`),
 			),
 		),
 	)
