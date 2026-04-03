@@ -5,7 +5,8 @@ import (
 	"github.com/go-core-fx/fiberfx/openapi"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
-	"github.com/zombie-check-bot/bot/internal/example"
+	"github.com/zombie-check-bot/bot/internal/contacts"
+	"github.com/zombie-check-bot/bot/internal/profiles"
 	"go.uber.org/fx"
 )
 
@@ -29,9 +30,7 @@ func Module() fx.Option {
 				}
 			},
 			func(cfg Config) telegofx.Config {
-				return telegofx.Config{
-					Token: cfg.Telegram.Token,
-				}
+				return telegofx.Config{Token: cfg.Telegram.Token}
 			},
 			func(cfg Config) sqlfx.Config {
 				return sqlfx.Config{
@@ -43,10 +42,17 @@ func Module() fx.Option {
 				}
 			},
 		),
-		fx.Provide(func(cfg Config) example.Config {
-			return example.Config{
-				Example: cfg.Example.Example,
-			}
-		}),
+		fx.Provide(
+			func(cfg Config) profiles.Config {
+				return profiles.Config{
+					DefaultLocale: cfg.Profiles.DefaultLocale,
+				}
+			},
+			func(cfg Config) contacts.Config {
+				return contacts.Config{
+					MaxTrustedContacts: cfg.Contacts.MaxTrustedContacts,
+				}
+			},
+		),
 	)
 }
