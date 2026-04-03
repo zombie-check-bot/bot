@@ -35,8 +35,12 @@ type telegram struct {
 	Token string `koanf:"token"`
 }
 
-type exampleConfig struct {
-	Example string `koanf:"example"`
+type profilesConfig struct {
+	DefaultLocale string `koanf:"default_locale"`
+}
+
+type contactsConfig struct {
+	MaxTrustedContacts int `koanf:"max_trusted_contacts"`
 }
 
 type Config struct {
@@ -44,7 +48,8 @@ type Config struct {
 	HTTP     http     `koanf:"http"`
 	Telegram telegram `koanf:"telegram"`
 
-	Example exampleConfig `koanf:"example"`
+	Profiles profilesConfig `koanf:"profiles"`
+	Contacts contactsConfig `koanf:"contacts"`
 }
 
 func Default() Config {
@@ -73,8 +78,11 @@ func Default() Config {
 			Token: "",
 		},
 
-		Example: exampleConfig{
-			Example: "example",
+		Profiles: profilesConfig{
+			DefaultLocale: "en",
+		},
+		Contacts: contactsConfig{
+			MaxTrustedContacts: 10,
 		},
 	}
 }
