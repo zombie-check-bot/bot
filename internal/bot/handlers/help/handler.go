@@ -32,6 +32,7 @@ func (h *Handler) handleHelp(ctx *th.Context, update telego.Update) error {
 	text := "Доступные команды:\n" +
 		"/start — регистрация пользователя\n" +
 		"/profile — показать профиль\n" +
+		"/active — отметить свою активность\n" +
 		"/contacts — управление доверенными контактами\n" +
 		"/help — эта справка\n\n" +
 		"Контакты:\n" +

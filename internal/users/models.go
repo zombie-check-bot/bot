@@ -7,7 +7,7 @@ import (
 	"github.com/zombie-check-bot/bot/internal/db"
 )
 
-type user struct {
+type userModel struct {
 	bun.BaseModel `bun:"table:users,alias:u"`
 	db.TimedModel
 
@@ -17,8 +17,8 @@ type user struct {
 	Identities []identity `bun:"rel:has-many,join:id=user_id"`
 }
 
-func newUser(id string) *user {
-	return &user{
+func newUserModel(id string) *userModel {
+	return &userModel{
 		BaseModel: bun.BaseModel{},
 		TimedModel: db.TimedModel{
 			CreatedAt: time.Now(),
@@ -61,7 +61,7 @@ func newIdentity(userID string, provider string, providerID string, providerData
 	}
 }
 
-func (u *user) toDomain() *User {
+func (u *userModel) toDomain() *User {
 	if u == nil {
 		return nil
 	}

@@ -42,3 +42,7 @@ func (s *Service) Login(ctx context.Context, ident Identity) (*User, error) {
 func (s *Service) GetUser(ctx context.Context, userID string) (*User, error) {
 	return s.users.GetUser(ctx, userID)
 }
+
+func (s *Service) ListActive(ctx context.Context, skip ...string) ([]User, error) {
+	return s.users.ListActive(ctx, skip...)
+}

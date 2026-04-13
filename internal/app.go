@@ -10,6 +10,7 @@ import (
 	"github.com/go-core-fx/logger"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
+	"github.com/zombie-check-bot/bot/internal/activity"
 	"github.com/zombie-check-bot/bot/internal/bot"
 	"github.com/zombie-check-bot/bot/internal/config"
 	"github.com/zombie-check-bot/bot/internal/contacts"
@@ -54,6 +55,7 @@ func Run(version healthfx.Version) {
 		users.Module(),
 		profiles.Module(),
 		contacts.Module(),
+		activity.Module(),
 		//
 		fx.Invoke(func(lc fx.Lifecycle, logger *zap.Logger) {
 			lc.Append(fx.Hook{
