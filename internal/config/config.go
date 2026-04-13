@@ -43,6 +43,11 @@ type contactsConfig struct {
 	MaxTrustedContacts int `koanf:"max_trusted_contacts"`
 }
 
+type activityConfig struct {
+	DefaultCheckIntervalDays int `koanf:"default_check_interval_days"`
+	DefaultTimeoutDays       int `koanf:"default_timeout_days"`
+}
+
 type Config struct {
 	Database database `koanf:"database"`
 	HTTP     http     `koanf:"http"`
@@ -50,6 +55,7 @@ type Config struct {
 
 	Profiles profilesConfig `koanf:"profiles"`
 	Contacts contactsConfig `koanf:"contacts"`
+	Activity activityConfig `koanf:"activity"`
 }
 
 func Default() Config {
@@ -83,6 +89,10 @@ func Default() Config {
 		},
 		Contacts: contactsConfig{
 			MaxTrustedContacts: 10,
+		},
+		Activity: activityConfig{
+			DefaultCheckIntervalDays: 7,
+			DefaultTimeoutDays:       14,
 		},
 	}
 }

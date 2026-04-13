@@ -62,7 +62,7 @@ func (h *Handler) handleStart(ctx *th.Context, update telego.Update) error {
 	return h.reply(ctx, update.Message.Chat.ID,
 		tu.Entity("Привет, "),
 		tu.Entity(username).Bold(),
-		tu.Entity("!\nПрофиль сохранён.\n\nКоманды:\n/profile\n/contacts\n/help"),
+		tu.Entity("!\nПрофиль сохранён.\n\nКоманды:\n/profile\n/settings\n/status\n/alive\n/contacts\n/help"),
 	)
 }
 

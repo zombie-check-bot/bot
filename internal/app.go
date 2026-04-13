@@ -10,12 +10,14 @@ import (
 	"github.com/go-core-fx/logger"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
+	"github.com/zombie-check-bot/bot/internal/activity"
 	"github.com/zombie-check-bot/bot/internal/bot"
 	"github.com/zombie-check-bot/bot/internal/config"
 	"github.com/zombie-check-bot/bot/internal/contacts"
 	"github.com/zombie-check-bot/bot/internal/db"
 	"github.com/zombie-check-bot/bot/internal/profiles"
 	"github.com/zombie-check-bot/bot/internal/server"
+	"github.com/zombie-check-bot/bot/internal/settings"
 	"github.com/zombie-check-bot/bot/internal/users"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -51,9 +53,11 @@ func Run(version healthfx.Version) {
 		//
 		// BUSINESS MODULES
 		fx.Supply(version),
+		settings.Module(),
 		users.Module(),
 		profiles.Module(),
 		contacts.Module(),
+		activity.Module(),
 		//
 		fx.Invoke(func(lc fx.Lifecycle, logger *zap.Logger) {
 			lc.Append(fx.Hook{

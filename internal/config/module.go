@@ -5,15 +5,13 @@ import (
 	"github.com/go-core-fx/fiberfx/openapi"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
-	"github.com/zombie-check-bot/bot/internal/contacts"
-	"github.com/zombie-check-bot/bot/internal/profiles"
 	"go.uber.org/fx"
 )
 
 func Module() fx.Option {
 	return fx.Module(
 		"config",
-		fx.Provide(New, fx.Private),
+		fx.Provide(New),
 		fx.Provide(
 			func(cfg Config) fiberfx.Config {
 				return fiberfx.Config{
@@ -39,18 +37,6 @@ func Module() fx.Option {
 					ConnMaxLifetime: cfg.Database.ConnMaxLifetime,
 					MaxOpenConns:    cfg.Database.MaxOpenConns,
 					MaxIdleConns:    cfg.Database.MaxIdleConns,
-				}
-			},
-		),
-		fx.Provide(
-			func(cfg Config) profiles.Config {
-				return profiles.Config{
-					DefaultLocale: cfg.Profiles.DefaultLocale,
-				}
-			},
-			func(cfg Config) contacts.Config {
-				return contacts.Config{
-					MaxTrustedContacts: cfg.Contacts.MaxTrustedContacts,
 				}
 			},
 		),

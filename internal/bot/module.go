@@ -8,6 +8,7 @@ import (
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
 	"github.com/zombie-check-bot/bot/internal/bot/handler"
+	"github.com/zombie-check-bot/bot/internal/bot/handlers/activity"
 	"github.com/zombie-check-bot/bot/internal/bot/handlers/contacts"
 	"github.com/zombie-check-bot/bot/internal/bot/handlers/help"
 	"github.com/zombie-check-bot/bot/internal/bot/handlers/profile"
@@ -29,6 +30,7 @@ func Module() fx.Option {
 			fx.Annotate(userauth.New, fx.ResultTags(`group:"middlewares"`)),
 
 			fx.Annotate(start.New, fx.ResultTags(`group:"handlers"`)),
+			fx.Annotate(activity.New, fx.ResultTags(`group:"handlers"`)),
 			fx.Annotate(profile.New, fx.ResultTags(`group:"handlers"`)),
 			fx.Annotate(contacts.New, fx.ResultTags(`group:"handlers"`)),
 			fx.Annotate(help.New, fx.ResultTags(`group:"handlers"`)),
