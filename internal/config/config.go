@@ -43,6 +43,11 @@ type contactsConfig struct {
 	MaxTrustedContacts int `koanf:"max_trusted_contacts"`
 }
 
+type activityConfig struct {
+	PendingTime  time.Duration `koanf:"pending_time"`
+	DeadlineTime time.Duration `koanf:"deadline_time"`
+}
+
 type Config struct {
 	Database database `koanf:"database"`
 	HTTP     http     `koanf:"http"`
@@ -50,6 +55,7 @@ type Config struct {
 
 	Profiles profilesConfig `koanf:"profiles"`
 	Contacts contactsConfig `koanf:"contacts"`
+	Activity activityConfig `koanf:"activity"`
 }
 
 func Default() Config {
@@ -83,6 +89,11 @@ func Default() Config {
 		},
 		Contacts: contactsConfig{
 			MaxTrustedContacts: 10,
+		},
+
+		Activity: activityConfig{
+			PendingTime:  24 * time.Hour,
+			DeadlineTime: 3 * 24 * time.Hour,
 		},
 	}
 }

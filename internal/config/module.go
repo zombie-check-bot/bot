@@ -5,6 +5,7 @@ import (
 	"github.com/go-core-fx/fiberfx/openapi"
 	"github.com/go-core-fx/sqlfx"
 	"github.com/go-core-fx/telegofx"
+	"github.com/zombie-check-bot/bot/internal/activity"
 	"github.com/zombie-check-bot/bot/internal/contacts"
 	"github.com/zombie-check-bot/bot/internal/profiles"
 	"go.uber.org/fx"
@@ -51,6 +52,12 @@ func Module() fx.Option {
 			func(cfg Config) contacts.Config {
 				return contacts.Config{
 					MaxTrustedContacts: cfg.Contacts.MaxTrustedContacts,
+				}
+			},
+			func(cfg Config) activity.Config {
+				return activity.Config{
+					Pending:  cfg.Activity.PendingTime,
+					Deadline: cfg.Activity.DeadlineTime,
 				}
 			},
 		),

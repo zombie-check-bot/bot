@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 	"github.com/uptrace/bun"
 	"github.com/zombie-check-bot/bot/internal/db"
 )
@@ -33,7 +34,7 @@ func (r *Repository) RegisterOrLogin(ctx context.Context, ident Identity) (*User
 	}
 
 	// Create a new user
-	newUser := newUser(uuid.NewString())
+	newUser := newUserModel(uuid.NewString())
 
 	// Create the identity
 	newIdentity := newIdentity(
@@ -79,7 +80,7 @@ func (r *Repository) RegisterOrLogin(ctx context.Context, ident Identity) (*User
 
 func (r *Repository) Login(ctx context.Context, ident Identity) (*User, error) {
 	// Find user by identity
-	var existingUser user
+	var existingUser userModel
 	err := r.db.NewSelect().
 		Model(&existingUser).
 		Where("id IN (?)", r.db.NewSelect().
@@ -102,7 +103,7 @@ func (r *Repository) Login(ctx context.Context, ident Identity) (*User, error) {
 }
 
 func (r *Repository) GetUser(ctx context.Context, userID string) (*User, error) {
-	var existingUser user
+	var existingUser userModel
 	err := r.db.NewSelect().
 		Model(&existingUser).
 		Where("id = ?", userID).
@@ -117,4 +118,23 @@ func (r *Repository) GetUser(ctx context.Context, userID string) (*User, error) 
 	}
 
 	return existingUser.toDomain(), nil
+}
+
+func (r *Repository) ListActive(ctx context.Context, skip ...string) ([]User, error) {
+	users := make([]userModel, 0)
+	q := r.db.NewSelect().
+		Model(&users).
+		Where("status = ?", StatusActive)
+	if len(skip) > 0 {
+		q = q.Where("id NOT IN (?)", bun.List(skip))
+	}
+	if err := q.Scan(ctx); err != nil {
+		return nil, fmt.Errorf("list users: %w", err)
+	}
+	return lo.Map(
+		users,
+		func(u userModel, _ int) User {
+			return *u.toDomain()
+		},
+	), nil
 }
