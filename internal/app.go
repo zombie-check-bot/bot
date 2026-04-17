@@ -17,6 +17,8 @@ import (
 	"github.com/zombie-check-bot/bot/internal/db"
 	"github.com/zombie-check-bot/bot/internal/profiles"
 	"github.com/zombie-check-bot/bot/internal/server"
+	"github.com/zombie-check-bot/bot/internal/state"
+	"github.com/zombie-check-bot/bot/internal/storage"
 	"github.com/zombie-check-bot/bot/internal/users"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -49,6 +51,8 @@ func Run(version healthfx.Version) {
 		db.Module(),
 		server.Module(),
 		bot.Module(),
+		state.Module(),
+		storage.Module(),
 		//
 		// BUSINESS MODULES
 		fx.Supply(version),

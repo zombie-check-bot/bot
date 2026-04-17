@@ -37,7 +37,7 @@ func (h *Handler) handleHelp(ctx *th.Context, update telego.Update) error {
 		"/help — эта справка\n\n" +
 		"Контакты:\n" +
 		"`/contacts list`\n" +
-		"`/contacts add @username`\n" +
+		"`/contacts add`\n" +
 		"`/contacts remove <id>`\n" +
 		"`/contacts activate <id>`\n" +
 		"`/contacts deactivate <id>`"
