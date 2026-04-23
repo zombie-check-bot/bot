@@ -30,6 +30,10 @@ const (
 	statePrefix = "contacts:"
 
 	stateAdd = statePrefix + "add"
+
+	actionActivate   = "activate"
+	actionDeactivate = "deactivate"
+	actionRemove     = "remove"
 )
 
 type Handler struct {
@@ -118,7 +122,7 @@ func (h *Handler) handleContacts(ctx *th.Context, update telego.Update) error {
 		}
 
 		return nil
-	case "remove", "activate", "deactivate":
+	case actionRemove, actionActivate, actionDeactivate:
 		const partsCount = 2
 		if len(parts) < partsCount {
 			return h.reply(ctx, update.Message.Chat.ID, "Использование: /contacts <remove|activate|deactivate> <id>")
@@ -213,9 +217,9 @@ func (h *Handler) handleUsersShared(ctx *th.Context, update telego.Update) error
 
 func parseCallbackAction(data string) (string, string, bool) {
 	for action, prefix := range map[string]string{
-		"remove":     callbackRemovePref,
-		"activate":   callbackActivate,
-		"deactivate": callbackDeactivate,
+		actionRemove:     callbackRemovePref,
+		actionActivate:   callbackActivate,
+		actionDeactivate: callbackDeactivate,
 	} {
 		if after, ok := strings.CutPrefix(data, prefix); ok {
 			value := after
@@ -234,11 +238,11 @@ func (h *Handler) applyContactAction(
 ) error {
 	var err error
 	switch action {
-	case "remove":
+	case actionRemove:
 		err = h.contactsSvc.Remove(ctx, userID, contactID)
-	case "activate":
+	case actionActivate:
 		err = h.contactsSvc.Activate(ctx, userID, contactID)
-	case "deactivate":
+	case actionDeactivate:
 		err = h.contactsSvc.Deactivate(ctx, userID, contactID)
 	default:
 		return h.reply(ctx, chatID, "Неизвестное действие")
