@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/go-core-fx/telegofx"
 	"github.com/mymmrac/telego"
 	tu "github.com/mymmrac/telego/telegoutil"
 	"github.com/zombie-check-bot/bot/internal/bot/handlers/activity"
@@ -13,10 +14,10 @@ import (
 )
 
 type notifier struct {
-	bot *telego.Bot
+	bot *telegofx.Bot
 }
 
-func newNotifier(bot *telego.Bot) *notifier {
+func newNotifier(bot *telegofx.Bot) *notifier {
 	return &notifier{bot: bot}
 }
 

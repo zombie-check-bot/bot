@@ -9,6 +9,7 @@ import (
 	"github.com/zombie-check-bot/bot/internal/contacts"
 	"github.com/zombie-check-bot/bot/internal/notifications"
 	"github.com/zombie-check-bot/bot/internal/profiles"
+	"github.com/zombie-check-bot/bot/internal/scheduler"
 	"go.uber.org/fx"
 )
 
@@ -44,6 +45,15 @@ func Module() fx.Option {
 				}
 			},
 		),
+
+		fx.Provide(
+			func(cfg Config) scheduler.Config {
+				return scheduler.Config{
+					CheckInterval: cfg.Scheduler.CheckInterval,
+				}
+			},
+		),
+
 		fx.Provide(
 			func(cfg Config) profiles.Config {
 				return profiles.Config{

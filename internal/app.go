@@ -17,6 +17,7 @@ import (
 	"github.com/zombie-check-bot/bot/internal/db"
 	"github.com/zombie-check-bot/bot/internal/notifications"
 	"github.com/zombie-check-bot/bot/internal/profiles"
+	"github.com/zombie-check-bot/bot/internal/scheduler"
 	"github.com/zombie-check-bot/bot/internal/server"
 	"github.com/zombie-check-bot/bot/internal/state"
 	"github.com/zombie-check-bot/bot/internal/storage"
@@ -54,6 +55,7 @@ func Run(version healthfx.Version) {
 		bot.Module(),
 		state.Module(),
 		storage.Module(),
+		scheduler.Module(),
 		//
 		// BUSINESS MODULES
 		fx.Supply(version),

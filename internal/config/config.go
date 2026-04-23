@@ -48,6 +48,10 @@ type activityConfig struct {
 	DeadlineTime time.Duration `koanf:"deadline_time"`
 }
 
+type schedulerConfig struct {
+	CheckInterval time.Duration `koanf:"check_interval"`
+}
+
 type notificationsConfig struct {
 	AliveCheckCooldown   time.Duration `koanf:"alive_check_cooldown"`
 	TrustedAlertCooldown time.Duration `koanf:"trusted_alert_cooldown"`
@@ -62,6 +66,7 @@ type Config struct {
 	Contacts      contactsConfig      `koanf:"contacts"`
 	Activity      activityConfig      `koanf:"activity"`
 	Notifications notificationsConfig `koanf:"notifications"`
+	Scheduler     schedulerConfig     `koanf:"scheduler"`
 }
 
 func Default() Config {
@@ -85,9 +90,12 @@ func Default() Config {
 				PublicPath: "",
 			},
 		},
-
 		Telegram: telegram{
 			Token: "",
+		},
+
+		Scheduler: schedulerConfig{
+			CheckInterval: 5 * time.Minute,
 		},
 
 		Profiles: profilesConfig{
