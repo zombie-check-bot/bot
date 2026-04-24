@@ -16,6 +16,7 @@ import (
 	"github.com/zombie-check-bot/bot/internal/bot/handlers/start"
 	"github.com/zombie-check-bot/bot/internal/bot/middlewares/state"
 	"github.com/zombie-check-bot/bot/internal/bot/middlewares/userauth"
+	"github.com/zombie-check-bot/bot/internal/notifications"
 	"go.uber.org/fx"
 )
 
@@ -28,6 +29,12 @@ func Module() fx.Option {
 				telego.WithFastHTTPClient(&fasthttp.Client{Dial: fasthttpproxy.FasthttpProxyHTTPDialer()}),
 			}
 		}),
+		fx.Provide(
+			newNotifier,
+			notifications.AsNotifier(
+				ProvideNotifier,
+			),
+		),
 		fx.Provide(
 			fx.Annotate(userauth.New, fx.ResultTags(`name:"middlewares-userauth"`)),
 			fx.Annotate(state.New, fx.ResultTags(`name:"middlewares-state"`)),

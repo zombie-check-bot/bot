@@ -48,14 +48,20 @@ type activityConfig struct {
 	DeadlineTime time.Duration `koanf:"deadline_time"`
 }
 
+type notificationsConfig struct {
+	AliveCheckCooldown   time.Duration `koanf:"alive_check_cooldown"`
+	TrustedAlertCooldown time.Duration `koanf:"trusted_alert_cooldown"`
+}
+
 type Config struct {
 	Database database `koanf:"database"`
 	HTTP     http     `koanf:"http"`
 	Telegram telegram `koanf:"telegram"`
 
-	Profiles profilesConfig `koanf:"profiles"`
-	Contacts contactsConfig `koanf:"contacts"`
-	Activity activityConfig `koanf:"activity"`
+	Profiles      profilesConfig      `koanf:"profiles"`
+	Contacts      contactsConfig      `koanf:"contacts"`
+	Activity      activityConfig      `koanf:"activity"`
+	Notifications notificationsConfig `koanf:"notifications"`
 }
 
 func Default() Config {
@@ -94,6 +100,10 @@ func Default() Config {
 		Activity: activityConfig{
 			PendingTime:  24 * time.Hour,
 			DeadlineTime: 3 * 24 * time.Hour,
+		},
+		Notifications: notificationsConfig{
+			AliveCheckCooldown:   1 * time.Hour,
+			TrustedAlertCooldown: 6 * time.Hour,
 		},
 	}
 }

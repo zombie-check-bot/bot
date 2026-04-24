@@ -120,6 +120,25 @@ func (r *Repository) GetUser(ctx context.Context, userID string) (*User, error) 
 	return existingUser.toDomain(), nil
 }
 
+func (r *Repository) GetIdentity(ctx context.Context, userID string, provider Provider) (*Identity, error) {
+	var existingIdentity identity
+	err := r.db.NewSelect().
+		Model(&existingIdentity).
+		Where("user_id = ?", userID).
+		Where("provider = ?", provider).
+		Scan(ctx, &existingIdentity)
+
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, ErrNotFound
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to find identity: %w", err)
+	}
+
+	return existingIdentity.toDomain(), nil
+}
+
 func (r *Repository) ListActive(ctx context.Context, skip ...string) ([]User, error) {
 	users := make([]userModel, 0)
 	q := r.db.NewSelect().

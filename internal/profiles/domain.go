@@ -7,3 +7,7 @@ type Profile struct {
 	DisplayName string
 	Locale      string
 }
+
+func (p Profile) String() string {
+	return p.Username
+}
