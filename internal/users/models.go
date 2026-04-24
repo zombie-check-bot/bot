@@ -74,3 +74,15 @@ func (u *userModel) toDomain() *User {
 		UpdatedAt: u.UpdatedAt,
 	}
 }
+
+func (u *identity) toDomain() *Identity {
+	if u == nil {
+		return nil
+	}
+
+	return &Identity{
+		Provider:     Provider(u.Provider),
+		ProviderID:   u.ProviderID,
+		ProviderData: u.ProviderData,
+	}
+}

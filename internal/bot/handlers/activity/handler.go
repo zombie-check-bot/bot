@@ -13,6 +13,8 @@ import (
 	"go.uber.org/zap"
 )
 
+const AliveConfirmCallback = "alive:confirm"
+
 type Handler struct {
 	activitySvc *activity.Service
 
@@ -29,6 +31,11 @@ func (h *Handler) Register(router *telegofx.Router) {
 		th.CommandEqual("active"),
 		th.AnyMessageWithFrom(),
 	)
+
+	router.Handle(
+		h.handleAlive,
+		th.CallbackDataEqual(AliveConfirmCallback),
+	)
 }
 
 func (h *Handler) handleActive(ctx *th.Context, update telego.Update) error {
@@ -37,6 +44,23 @@ func (h *Handler) handleActive(ctx *th.Context, update telego.Update) error {
 		return nil
 	}
 
+	return h.makeActive(ctx, update.Message.Chat.ID)
+}
+
+func (h *Handler) handleAlive(ctx *th.Context, update telego.Update) error {
+	if update.CallbackQuery == nil || update.CallbackQuery.Message == nil {
+		h.logger.Warn("received alive:confirm callback without an accessible message")
+		return nil
+	}
+	if err := ctx.Bot().
+		AnswerCallbackQuery(ctx, &telego.AnswerCallbackQueryParams{CallbackQueryID: update.CallbackQuery.ID}); err != nil {
+		h.logger.Error("failed to answer callback query", zap.Error(err))
+	}
+
+	return h.makeActive(ctx, update.CallbackQuery.Message.GetChat().ID)
+}
+
+func (h *Handler) makeActive(ctx *th.Context, chatID int64) error {
 	user, err := userauth.User(ctx)
 	if err != nil {
 		h.logger.Error("failed to get user from context", zap.Error(err))
@@ -48,7 +72,7 @@ func (h *Handler) handleActive(ctx *th.Context, update telego.Update) error {
 		return fmt.Errorf("mark active: %w", markErr)
 	}
 
-	return h.reply(ctx, update.Message.Chat.ID,
+	return h.reply(ctx, chatID,
 		tu.Entity("✅ Активность отмечена!\n\n"),
 		tu.Entity("Ваша активность успешно зафиксирована в логе."),
 	)

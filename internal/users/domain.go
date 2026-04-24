@@ -23,6 +23,10 @@ type User struct {
 	UpdatedAt time.Time
 }
 
+func (u User) String() string {
+	return u.ID
+}
+
 type Identity struct {
 	Provider     Provider
 	ProviderID   string

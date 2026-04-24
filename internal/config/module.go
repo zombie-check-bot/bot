@@ -7,6 +7,7 @@ import (
 	"github.com/go-core-fx/telegofx"
 	"github.com/zombie-check-bot/bot/internal/activity"
 	"github.com/zombie-check-bot/bot/internal/contacts"
+	"github.com/zombie-check-bot/bot/internal/notifications"
 	"github.com/zombie-check-bot/bot/internal/profiles"
 	"go.uber.org/fx"
 )
@@ -58,6 +59,12 @@ func Module() fx.Option {
 				return activity.Config{
 					Pending:  cfg.Activity.PendingTime,
 					Deadline: cfg.Activity.DeadlineTime,
+				}
+			},
+			func(cfg Config) notifications.Config {
+				return notifications.Config{
+					AliveCheckCooldown:   cfg.Notifications.AliveCheckCooldown,
+					TrustedAlertCooldown: cfg.Notifications.TrustedAlertCooldown,
 				}
 			},
 		),

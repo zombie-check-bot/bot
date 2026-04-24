@@ -26,9 +26,7 @@ func (c ContactInput) Validate() error {
 	if c.UserID == "" {
 		return fmt.Errorf("%w: user id is required", ErrValidationFailed)
 	}
-	switch c.Type {
-	case ContactTypeTelegram:
-	default:
+	if !IsValidContactType(c.Type) {
 		return fmt.Errorf("%w: invalid contact type", ErrValidationFailed)
 	}
 	if c.Value == "" {
@@ -44,4 +42,13 @@ func (c Contact) String() string {
 		display = c.Value
 	}
 	return fmt.Sprintf("%s (%s)", display, c.Type)
+}
+
+func IsValidContactType(t ContactType) bool {
+	switch t {
+	case ContactTypeTelegram:
+		return true
+	default:
+		return false
+	}
 }

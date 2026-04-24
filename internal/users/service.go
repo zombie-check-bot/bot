@@ -43,6 +43,10 @@ func (s *Service) GetUser(ctx context.Context, userID string) (*User, error) {
 	return s.users.GetUser(ctx, userID)
 }
 
+func (s *Service) GetIdentity(ctx context.Context, userID string, provider Provider) (*Identity, error) {
+	return s.users.GetIdentity(ctx, userID, provider)
+}
+
 func (s *Service) ListActive(ctx context.Context, skip ...string) ([]User, error) {
 	return s.users.ListActive(ctx, skip...)
 }

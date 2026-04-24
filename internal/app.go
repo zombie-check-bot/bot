@@ -15,6 +15,7 @@ import (
 	"github.com/zombie-check-bot/bot/internal/config"
 	"github.com/zombie-check-bot/bot/internal/contacts"
 	"github.com/zombie-check-bot/bot/internal/db"
+	"github.com/zombie-check-bot/bot/internal/notifications"
 	"github.com/zombie-check-bot/bot/internal/profiles"
 	"github.com/zombie-check-bot/bot/internal/server"
 	"github.com/zombie-check-bot/bot/internal/state"
@@ -60,6 +61,7 @@ func Run(version healthfx.Version) {
 		profiles.Module(),
 		contacts.Module(),
 		activity.Module(),
+		notifications.Module(),
 		//
 		fx.Invoke(func(lc fx.Lifecycle, logger *zap.Logger) {
 			lc.Append(fx.Hook{
